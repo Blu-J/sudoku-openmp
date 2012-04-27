@@ -1,0 +1,326 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass report
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Assignment 3: Extra Credit
+\end_layout
+
+\begin_layout Author
+Justin Miller
+\end_layout
+
+\begin_layout Section*
+Initial Approach
+\end_layout
+
+\begin_layout Subsection*
+About
+\end_layout
+
+\begin_layout Standard
+The first thing that I tried to do is check the creation of all the puzzles
+ by finding relabling(row swap, band swap, column swap, pillar swap, and
+ rotate) and relabling.
+ From those two sets, let us call the first one 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and the second one 
+\begin_inset Formula $\beta$
+\end_inset
+
+, we know that 
+\begin_inset Formula $\forall\alpha_{a},\alpha_{b}|\alpha_{a}!=\alpha_{b}|a!=b|a,b\in\mathbb{Z}$
+\end_inset
+
+ and 
+\begin_inset Formula $\forall\beta_{a},\beta_{b}|\beta_{a}!=\beta_{b}|a!=b|a,b\in\mathbb{Z}$
+\end_inset
+
+ and 
+\begin_inset Formula $\exists a,b|a=b|a\in\alpha\, and\, b\in\beta$
+\end_inset
+
+.
+ So I know there will be at least one non-unique element if I calculate
+ both 
+\begin_inset Formula $\alpha\, and\,\beta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So to check if something was unique, on creation we put into a list if that
+ element is unique.
+ To check if that element is unique we check the list to see if that element
+ is in it.
+ The list recreates itself at every 10,000 elements.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Memory
+\end_layout
+
+\begin_layout Standard
+For this approach the memory is minimul.
+ I never got a chance to see how much it actually took because of the time
+\end_layout
+
+\begin_layout Subsection*
+Speed
+\end_layout
+
+\begin_layout Standard
+The time to do this for 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ took 5 days, and that was parallel search.
+ Maybe it would have been faster if as we put in the element in the list
+ the list gets sorted, or it might have been slower.
+\end_layout
+
+\begin_layout Subsection*
+Summary
+\end_layout
+
+\begin_layout Standard
+For this approach, there has to be something faster.
+\end_layout
+
+\begin_layout Section*
+Second Approach
+\end_layout
+
+\begin_layout Subsection*
+About
+\end_layout
+
+\begin_layout Standard
+This approach uses the same ideas as the first, but this time the data is
+ put into a 2-3 tree.
+ This way as an element is put in it is not only now in sorted order, but
+ it is a balanced tree.
+\end_layout
+
+\begin_layout Subsection*
+Memory
+\end_layout
+
+\begin_layout Standard
+The memory takes more than the first approach.
+ I also didn't get the issue fixed with the memory leak.
+ So in the end this approach used 600mb in space.
+\end_layout
+
+\begin_layout Subsection*
+Speed
+\end_layout
+
+\begin_layout Standard
+This one is the fastest, the time to complete is 20 seconds while the vanilla
+ without checking took 5 seconds.
+\end_layout
+
+\begin_layout Subsection*
+Summary
+\end_layout
+
+\begin_layout Standard
+This found that there is one element that is not unique between the two
+ which means that 
+\begin_inset Formula $\forall\beta_{a}|\lambda\notin perm(\beta_{1})|\lambda\in perm(\beta_{a})|a\geq2$
+\end_inset
+
+, or that the permutations of the rest of the of beta set are not in the
+ permutation set of the first beta.
+ But this doesn't calculate how many unique boards there are.
+\end_layout
+
+\begin_layout Section*
+Future Approach
+\end_layout
+
+\begin_layout Subsection*
+About
+\end_layout
+
+\begin_layout Standard
+For this one, all we need to generate is the relable set, which we will
+ call 
+\begin_inset Formula $\lambda$
+\end_inset
+
+.
+ From there we try and have, lets us say sudoku board 
+\begin_inset Formula $\alpha=\lambda_{a}$
+\end_inset
+
+.
+ And we are going to take the first 3x3 section in the upper left and go
+ through each of 3x3 blocks in 
+\begin_inset Formula $\beta=\lambda_{b}|b>a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename 20120405_090851.jpg
+	lyxscale 10
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For each of those small sections, it will change the original 3x3 into the
+ new one by using permutations.
+ Then for the whole 
+\begin_inset Formula $\lambda^{'}$
+\end_inset
+
+ we do those same changes.
+ As well depending on where the new 3x3 goes we will do band and pillar
+ permutations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename 20120405_090857.jpg
+	lyxscale 10
+	width 50col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For the next part, those lines next to the filled in 3x3 represent locked
+ in row/colum.
+ We can then move those to fit the 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ If it can't, then we know that the two are independent permutation sets.
+ If we can, then we check the 3x3 that aren't filled in, but because of
+ previous steps with all the columns, rows, pillars, bands, and rotations
+ locks in the last numbers.
+ If they match, then we know that 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+ are in the same permutation set.
+ 
+\end_layout
+
+\begin_layout Subsection*
+Memory
+\end_layout
+
+\begin_layout Standard
+This would use the least amount of memory of all the approaches.
+\end_layout
+
+\begin_layout Subsection*
+Speed
+\end_layout
+
+\begin_layout Standard
+This one will be on order 
+\begin_inset Formula $O(n^{2})$
+\end_inset
+
+ so it will be about 
+\begin_inset Formula $9!^{2}$
+\end_inset
+
+ which based on the first approach we are going to estimate the time around
+ a week.
+\end_layout
+
+\begin_layout Subsection*
+Summary
+\end_layout
+
+\begin_layout Standard
+This is going to be the only one that says how many unique boards there
+ are.
+\end_layout
+
+\end_body
+\end_document
