@@ -1,0 +1,1 @@
+We are to find all the sudoku orbits of a given puzzle. And the second question is how many unique solutions are there.
